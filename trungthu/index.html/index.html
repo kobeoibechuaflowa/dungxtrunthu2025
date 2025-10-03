@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Trung Thu Rực Rỡ</title>
+<style>
+:root{
+  --lantern-count:50;
+  --title-font-size:64px;
+}
+
+html,body{height:100%;margin:0;font-family:'Segoe UI', Roboto, Arial,sans-serif;overflow:hidden;background:#08101f;}
+body{position:relative;color:#fff;min-height:100vh;}
+
+body::after{
+  content:"";position:fixed;inset:0;
+  background:linear-gradient(to bottom, rgba(0,0,0,0.05), rgba(0,0,0,0.45));
+  pointer-events:none;z-index:0;
+}
+
+h1{
+  position:relative;z-index:10;text-align:center;margin:18px;font-weight:900;font-size:var(--title-font-size);
+  color:#fff;padding:8px 14px;border-radius:14px;text-shadow:0 0 20px #fff,0 0 35px #ffeb3b,0 0 50px #ff9800;
+  animation:neonMove 4s linear infinite;
+}
+
+@keyframes neonMove{
+  0%{text-shadow:0 0 8px #fff,0 0 18px #0ff,0 0 28px #f0f;}
+  50%{text-shadow:0 0 14px #fff,0 0 28px #ff0,0 0 42px #f0f;}
+  100%{text-shadow:0 0 8px #fff,0 0 18px #0ff,0 0 28px #f0f;}
+}
+
+#sky{position:fixed;inset:0;pointer-events:none;z-index:5;}
+
+.lantern{
+  position:absolute;top:-20vh;pointer-events:auto;z-index:6;display:block;
+  transform-origin:center center;will-change:transform,opacity;
+}
+.lantern .icon{
+  font-size:28px;cursor:pointer;text-shadow:0 0 8px #ffdca8,0 0 16px #f06;
+}
+
+.modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(0.95);min-width:260px;padding:18px;border-radius:12px;background:rgba(12,12,18,0.88);color:#ffdca8;z-index:20;text-align:center;opacity:0;transition:all 220ms ease;}
+.modal.show{opacity:1;}
+.close{position:absolute;right:10px;top:8px;background:none;border:none;color:#fff;font-size:18px;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<h1>🌕 Trung Thu Rực Rỡ 🌕</h1>
+<div id="sky"></div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
+  <button id="closeModal" class="close">✕</button>
+  <div id="poemText">Chúc mừng Trung Thu!</div>
+</div>
+
+<!-- Thêm audio -->
+<audio id="bgMusic" src="assets/nhac.mp3" loop autoplay></audio>
+
+<script>
+const ICONS=['🏮','🎆','🌕','🧧','✨'];
+const POEMS=[
+  'Trăng rằm sáng tỏ, chúc bạn Trung Thu an lành.',
+  'Đèn lồng lung linh, niềm vui ngập tràn.',
+  'Bánh nướng thơm lừng, hạnh phúc đong đầy.',
+  'Trung Thu đoàn viên, sum vầy hạnh phúc.',
+  'Chúc bạn một đêm trăng sáng lung linh.'
+];
+
+const sky=document.getElementById('sky');
+const modal=document.getElementById('modal');
+const poemText=document.getElementById('poemText');
+const closeModal=document.getElementById('closeModal');
+
+function rand(min,max){return Math.random()*(max-min)+min;}
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+
+function createLantern(){
+  const container=document.createElement('div');
+  container.className='lantern';
+  container.style.left=rand(0,100)+'vw';
+
+  const icon=document.createElement('span');
+  icon.className='icon';
+  const size=rand(28,50);
+  icon.style.fontSize=size+'px';
+  icon.textContent=pick(ICONS);
+
+  let speed=rand(1.5,4); 
+  let y=-rand(20,100);
+
+  function animate(){
+    y += speed;
+    if(y>window.innerHeight+50){ 
+      y=-rand(60,120); 
+      icon.textContent=pick(ICONS);
+      speed = rand(1.5,4);
+    }
+    container.style.top = y+'px';
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  icon.addEventListener('click',ev=>{
+    ev.stopPropagation();
+    poemText.textContent=pick(POEMS);
+    modal.classList.add('show');
+    icon.style.transform='scale(1.4) rotate(-8deg)';
+    setTimeout(()=>icon.style.transform='',300);
+  });
+
+  container.appendChild(icon);
+  return container;
+}
+
+function populate(){
+  sky.innerHTML='';
+  for(let i=0;i<50;i++) sky.appendChild(createLantern());
+}
+
+closeModal.addEventListener('click',e=>{e.stopPropagation();modal.classList.remove('show');});
+document.addEventListener('click',()=>modal.classList.remove('show'));
+
+populate();
+
+// --- Chèn ảnh nền
+document.body.style.backgroundImage="url('assets/download.jpg')";
+document.body.style.backgroundSize='cover';
+document.body.style.backgroundPosition='center';
+</script>
+</body>
+</html>
