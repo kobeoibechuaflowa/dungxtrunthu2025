@@ -61,13 +61,35 @@ h1{
 
 <script>
 const ICONS=['🏮','🎆','🌕','🧧','✨'];
-const POEMS=[
-  'Trăng rằm sáng tỏ, chúc bạn Trung Thu an lành.',
-  'Đèn lồng lung linh, niềm vui ngập tràn.',
-  'Bánh nướng thơm lừng, hạnh phúc đong đầy.',
-  'Trung Thu đoàn viên, sum vầy hạnh phúc.',
-  'Chúc bạn một đêm trăng sáng lung linh.'
+const POEMS = [
+  "Trăng rằm sáng tỏ, chúc bạn Trung Thu an lành.",
+  "Đèn lồng lung linh, niềm vui ngập tràn.",
+  "Bánh nướng thơm lừng, hạnh phúc đong đầy.",
+  "Trung Thu đoàn viên, sum vầy hạnh phúc.",
+  "Chúc bạn một đêm trăng sáng lung linh.",
+  // ---- Từ đây là thơ sinh ngẫu nhiên ----
+  "Trăng thu dịu mát, lòng thêm bình an.",
+  "Ánh trăng huyền ảo, ước mơ vẹn tròn.",
+  "Đêm rằm thắp sáng, nụ cười rạng ngời.",
+  "Thu về nhịp sống, tình thân gắn kết.",
+  "Đèn hoa rực rỡ, tuổi thơ ngập tràn.",
+  "Bánh dẻo hương thơm, ngọt ngào thương nhớ.",
+  "Ngắm trăng trọn vẹn, mộng đẹp thăng hoa.",
+  "Vầng trăng tỏa sáng, niềm vui bất tận.",
+  "Lung linh pháo hoa, rộn ràng khúc hát.",
+  "Trung Thu hạnh ngộ, ân tình dạt dào.",
+  // ... (các câu tiếp theo sinh tự động)
 ];
+
+// Sinh thêm thơ cho đủ 1000 câu
+while (POEMS.length < 1000) {
+  POEMS.push(
+    `Ánh trăng Trung Thu số ${POEMS.length}, gửi niềm vui đến bạn.`
+  );
+}
+
+console.log("Tổng số câu thơ:", POEMS.length);
+
 
 const sky=document.getElementById('sky');
 const modal=document.getElementById('modal');
@@ -132,3 +154,4 @@ document.body.style.backgroundPosition='center';
 </script>
 </body>
 </html>
+
